@@ -1,4 +1,9 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  ContentChildren,
+  QueryList,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,54 +11,48 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="weather-card">
-      <div class="weather-card-header">
+    <div class="card">
+      <div class="card-header">
         <ng-content select="[header]"></ng-content>
       </div>
-      <div class="weather-card-content">
+      <div class="card-content">
         <ng-content></ng-content>
       </div>
-      <div class="weather-card-footer">
+      <div class="card-footer">
         <ng-content select="[footer]"></ng-content>
       </div>
     </div>
   `,
   styles: [
     `
-      .weather-card {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 24px;
-        margin: 16px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      .card {
         background: white;
-        width: 350px;
-        min-height: 300px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 300px;
+        min-height: 400px;
         display: flex;
         flex-direction: column;
       }
-      .weather-card-header {
-        font-weight: bold;
+      .card-header {
         font-size: 1.5em;
-        margin-bottom: 16px;
-        min-height: 32px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
       }
-      .weather-card-content {
-        margin: 24px 0;
+      .card-content {
         flex: 1;
         display: flex;
-        align-items: center;
+        flex-direction: column;
         justify-content: center;
-        min-height: 180px;
       }
-      .weather-card-footer {
-        font-size: 1em;
+      .card-footer {
+        margin-top: 20px;
+        font-size: 0.9em;
         color: #666;
-        min-height: 24px;
       }
     `,
   ],
 })
-export class WeatherCardComponent {
-  @Input() title: string = '';
-}
+export class WeatherCardComponent {}
