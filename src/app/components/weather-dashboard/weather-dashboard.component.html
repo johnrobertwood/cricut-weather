@@ -1,0 +1,41 @@
+<div class="dashboard">
+  <h1>Cricut Weather Dashboard</h1>
+
+  <div class="unit-selector">
+    <label>
+      Temperature Unit:
+      <select [(ngModel)]="selectedUnit" (ngModelChange)="onUnitChange($event)">
+        <option value="F">Fahrenheit</option>
+        <option value="C">Celsius</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="cards-container">
+    <app-weather-card>
+      <div header>South Jordan, Utah</div>
+      <div class="combined-data">
+        <div class="temperature-section">
+          <div class="section-label">Temperature:</div>
+          <div class="content-wrapper">
+            <div *ngIf="isLoading" class="loading-container">
+              <div class="spinner"></div>
+            </div>
+            <div *ngIf="!isLoading" class="temperature-value">
+              {{ weatherData?.temperature | temperature }}
+            </div>
+          </div>
+        </div>
+        <div class="humidity-section">
+          <div class="section-label">Humidity:</div>
+          <div class="humidity-value">
+            {{ weatherData ? (weatherData.humidity | number:'1.0-1') : '--' }}%
+          </div>
+        </div>
+      </div>
+      <div footer>
+        Last updated: {{ (weatherData && weatherData.timestamp) ? (weatherData.timestamp | date:'medium') : 'Loading...' }}
+      </div>
+    </app-weather-card>
+  </div>
+</div> 

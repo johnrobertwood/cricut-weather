@@ -1,9 +1,4 @@
-import {
-  Component,
-  ContentChild,
-  ContentChildren,
-  QueryList,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -29,16 +24,15 @@ import { CommonModule } from '@angular/common';
         background: white;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        width: 300px;
-        min-height: 400px;
+        padding: 15px;
+        min-height: 300px;
         display: flex;
         flex-direction: column;
       }
       .card-header {
-        font-size: 1.5em;
+        font-size: 1.4em;
         font-weight: bold;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         color: #333;
       }
       .card-content {
@@ -48,7 +42,7 @@ import { CommonModule } from '@angular/common';
         justify-content: center;
       }
       .card-footer {
-        margin-top: 20px;
+        margin-top: 15px;
         font-size: 0.9em;
         color: #666;
       }
