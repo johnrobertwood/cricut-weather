@@ -1,12 +1,22 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { WeatherDashboardComponent } from './components/weather-dashboard/weather-dashboard.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  standalone: true,
+  imports: [CommonModule, WeatherDashboardComponent],
+  template: ` <app-weather-dashboard></app-weather-dashboard> `,
+  styles: [
+    `
+      :host {
+        display: block;
+        min-height: 100vh;
+        background-color: #f0f2f5;
+      }
+    `,
+  ],
 })
 export class AppComponent {
-  title = 'cricut-weather';
+  title = 'Weather Dashboard';
 }
