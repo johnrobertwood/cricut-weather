@@ -6,10 +6,7 @@ import { Temperature } from '../services/weather.service';
   standalone: true,
 })
 export class TemperaturePipe implements PipeTransform {
-  transform(temperature: Temperature | null | undefined): string {
-    if (!temperature?.value) {
-      return 'Loading...';
-    }
+  transform(temperature: Temperature): string {
     return `${temperature.value.toFixed(1)}${temperature.unit}`;
   }
 }
