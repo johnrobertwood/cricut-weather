@@ -1,59 +1,83 @@
-# CricutWeather
+# Cricut Weather Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
+A modern Angular application that displays weather information with a focus on temperature data. The application demonstrates various Angular features including two-way binding, content projection, custom pipes, and RxJS data stream management.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Real-time weather data display
+- Temperature unit conversion (Fahrenheit/Celsius)
+- Custom temperature formatting pipe
+- Cached weather data using RxJS BehaviorSubject
+- Modern, responsive card-based UI
+- Loading state indicators
 
+## Prerequisites
+
+- Node.js (v14 or higher)
+- Angular CLI (v16 or higher)
+- Modern web browser
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone [repository-url]
+cd cricut-weather
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+4. Open your browser and navigate to `http://localhost:4200`
 
-## Code scaffolding
+## Project Structure
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- `src/app/components/` - Angular components
+  - `weather-card/` - Reusable card component with content projection
+  - `weather-dashboard/` - Main dashboard component
+- `src/app/services/` - Angular services
+  - `weather.service.ts` - Weather data fetching and caching
+- `src/app/pipes/` - Custom pipes
+  - `temperature.pipe.ts` - Temperature formatting pipe
 
-```bash
-ng generate component component-name
-```
+## Features in Detail
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Weather Service
+- Fetches real-time weather data
+- Implements caching using RxJS BehaviorSubject
+- Handles temperature unit conversion
 
-```bash
-ng generate --help
-```
+### Temperature Pipe
+- Custom pipe for formatting temperature values
+- Supports both Fahrenheit and Celsius
+- Handles null/undefined values gracefully
 
-## Building
+### Weather Card Component
+- Reusable card component
+- Implements content projection for flexible content display
+- Modern, responsive design
 
-To build the project run:
+### Weather Dashboard Component
+- Main application component
+- Implements two-way binding for temperature unit selection
+- Displays combined weather data
+- Includes loading state indicators
 
-```bash
-ng build
-```
+## Contributing
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## Running unit tests
+## License
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is licensed under the MIT License - see the LICENSE file for details.
