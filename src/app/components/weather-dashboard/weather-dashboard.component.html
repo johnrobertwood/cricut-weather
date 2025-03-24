@@ -32,6 +32,17 @@
             {{ weatherData ? (weatherData.humidity | number:'1.0-1') : '--' }}%
           </div>
         </div>
+        <div class="forecast-section" *ngIf="weatherData?.forecast">
+          <div class="section-label">Tomorrow's Weather:</div>
+          <div class="forecast-content">
+            <img 
+              [src]="weatherData?.forecast?.icon || ''" 
+              [alt]="weatherData?.forecast?.description || 'Weather icon'" 
+              class="forecast-icon"
+            >
+            <span>{{ weatherData?.forecast?.description || 'No forecast available' }}</span>
+          </div>
+        </div>
       </div>
       <div footer>
         Last updated: {{ (weatherData && weatherData.timestamp) ? (weatherData.timestamp | date:'medium') : 'Loading...' }}

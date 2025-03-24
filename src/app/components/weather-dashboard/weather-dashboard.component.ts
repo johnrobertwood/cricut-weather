@@ -12,7 +12,7 @@ type TemperatureUnit = 'C' | 'F';
   standalone: true,
   imports: [CommonModule, FormsModule, WeatherCardComponent, TemperaturePipe],
   templateUrl: './weather-dashboard.component.html',
-  styleUrls: ['./weather-dashboard.component.css'],
+  styleUrls: ['./weather-dashboard.component.scss'],
 })
 export class WeatherDashboardComponent implements OnInit {
   weatherData: WeatherData | null = null;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, throwError } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 
 export interface Temperature {
   value: number;
@@ -12,6 +12,10 @@ export interface WeatherData {
   temperature: Temperature;
   humidity: number;
   timestamp: Date;
+  forecast?: {
+    description: string;
+    icon: string;
+  };
 }
 
 interface WeatherResponse {
@@ -23,12 +27,22 @@ interface WeatherResponse {
   name: string;
 }
 
+interface OverviewResponse {
+  list: Array<{
+    dt: number;
+    weather: Array<{
+      description: string;
+      icon: string;
+    }>;
+  }>;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class WeatherService {
   private readonly API_URL =
-    'https://2hcwrualh8.execute-api.us-east-1.amazonaws.com/prod/getWeather';
+    'https://2hcwrualh8.execute-api.us-east-1.amazonaws.com/prod';
   private readonly DEFAULT_LAT = 40.5593081; // South Jordan, Utah
   private readonly DEFAULT_LON = -111.938668;
   private weatherDataSubject = new BehaviorSubject<WeatherData | null>(null);
@@ -60,23 +74,59 @@ export class WeatherService {
       return throwError(() => new Error('Invalid coordinates provided'));
     }
 
-    const url = `${this.API_URL}?lat=${lat}&lon=${lon}`;
+    const weatherUrl = `${this.API_URL}/getWeather?lat=${lat}&lon=${lon}`;
+    const overviewUrl = `${this.API_URL}/getOverview?lat=${lat}&lon=${lon}`;
 
-    return this.http.get<WeatherResponse>(url).pipe(
-      map((data) => {
-        // API returns temperature in Kelvin
+    console.log('Making API calls to:', { weatherUrl, overviewUrl });
+
+    return combineLatest({
+      weather: this.http
+        .get<WeatherResponse>(weatherUrl)
+        .pipe(
+          tap((response) => console.log('Weather API response:', response))
+        ),
+      overview: this.http
+        .get<OverviewResponse>(overviewUrl)
+        .pipe(
+          tap((response) => console.log('Overview API response:', response))
+        ),
+    }).pipe(
+      tap(({ weather, overview }) => {
+        console.log('Combined API responses:', { weather, overview });
+      }),
+      map(({ weather, overview }) => {
+        console.log('Processing weather data:', weather);
+        console.log('Processing overview data:', overview);
+
         const weatherData: WeatherData = {
           temperature: {
-            value: this.kelvinToFahrenheit(data.main.temp),
+            value: this.kelvinToFahrenheit(weather.main.temp),
             unit: 'F',
           },
-          humidity: data.main.humidity,
-          timestamp: new Date(data.dt * 1000),
+          humidity: weather.main.humidity,
+          timestamp: new Date(weather.dt * 1000),
         };
+
+        // Add forecast data if available
+        if (overview.list && overview.list.length > 0) {
+          console.log('Adding forecast data from overview');
+          const tomorrow = overview.list[0];
+          weatherData.forecast = {
+            description: tomorrow.weather[0].description,
+            icon: `https://openweathermap.org/img/wn/${tomorrow.weather[0].icon}@2x.png`,
+          };
+        } else {
+          console.warn('No forecast data available in overview response');
+        }
+
+        console.log('Final weather data:', weatherData);
         this.weatherDataSubject.next(weatherData);
         return weatherData;
       }),
-      catchError(this.handleError)
+      catchError((error) => {
+        console.error('Error in getWeatherData:', error);
+        return throwError(() => error);
+      })
     );
   }
 
