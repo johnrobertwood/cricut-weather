@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, combineLatest, throwError } from 'rxjs';
 import { map, catchError, tap, shareReplay } from 'rxjs/operators';
 
@@ -61,19 +61,6 @@ export class WeatherService {
 
   private validateCoordinates(lat: number, lon: number): boolean {
     return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
-  }
-
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = 'An error occurred while fetching weather data';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(() => new Error(errorMessage));
   }
 
   getWeatherData(
@@ -167,10 +154,6 @@ export class WeatherService {
   private kelvinToFahrenheit(kelvin: number): number {
     // First convert Kelvin to Celsius, then to Fahrenheit
     const celsius = kelvin - 273.15;
-    return (celsius * 9) / 5 + 32;
-  }
-
-  private celsiusToFahrenheit(celsius: number): number {
     return (celsius * 9) / 5 + 32;
   }
 

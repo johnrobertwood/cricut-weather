@@ -1,119 +1,154 @@
-// Reset and base styles
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+// Variables
+$primary-color: #00b894;
+$text-color: #2d3436;
+$secondary-text: #636e72;
+$background-color: #f5f6fa;
+$card-background: #ffffff;
+$border-color: rgba(0, 184, 148, 0.2);
+$shadow-color: rgba(0, 184, 148, 0.1);
+
+// Mixins
+@mixin card-hover {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px $shadow-color;
+  }
 }
 
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Main Dashboard Styles
 .dashboard {
-  min-height: 100vh;
   width: 100vw;
-  background: #f8f9fa;
-  padding: 1.5rem;
+  height: 100vh;
+  background-color: $background-color;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-}
+  font-family: 'Inter', sans-serif;
 
-// Header styles
-h1 {
-  font-size: 2.5rem;
-  color: #00b894; // Cricut green
-  margin-bottom: 0.75rem;
-  text-align: center;
-  font-weight: 600;
-}
+  h1 {
+    font-size: 2.2em;
+    margin: 20px 0;
+    color: $text-color;
+  }
 
-.unit-selector {
-  margin-bottom: 1.5rem;
-  
-  select {
-    font-size: 1.2rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
-    border: 2px solid #00b894;
-    background: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    min-width: 120px;
-    color: #1a1a1a;
-    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-    
-    &:focus {
-      outline: none;
-      border-color: #00a0dc;
-      box-shadow: 0 0 0 2px rgba(0, 184, 148, 0.2);
-    }
+  .unit-selector {
+    margin: 20px 0;
+    padding: 10px;
+    background: $card-background;
+    border-radius: 4px;
+    font-size: 1.2em;
+    border: 1px solid $border-color;
+    box-shadow: 0 2px 8px $shadow-color;
+  }
+
+  .cards-container {
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
   }
 }
 
-// Main weather card
-.combined-data {
-  width: 95%;
-  max-width: 1200px;
-  min-width: 800px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 184, 148, 0.1);
-  padding: 1.5rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  margin: 0 auto;
-  height: 450px;
-  border: 1px solid rgba(0, 184, 148, 0.1);
-}
-
-// Weather sections
-.temperature-section,
-.humidity-section {
-  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+// Weather Card Styles
+.weather-card {
+  background: $card-background;
   border-radius: 12px;
   padding: 1.25rem;
+  box-shadow: 0 4px 12px $shadow-color;
+  transition: all 0.3s ease;
+  border: 1px solid $border-color;
+  width: 95vw;
+  height: 85vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 160px;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(0, 184, 148, 0.2);
-  box-shadow: 0 4px 12px rgba(0, 184, 148, 0.05);
+  gap: 3vh;
+  overflow-y: auto;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 184, 148, 0.1);
-  }
+  @include card-hover;
 }
 
-.section-label {
-  font-size: 1.4rem;
-  color: #00b894;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-.temperature-value,
-.humidity-value {
-  font-weight: 600;
-  color: #1a1a1a;
-  line-height: 1;
-  transition: font-size 0.3s ease;
-  min-height: 1.2em;
+// Content Wrapper
+.content-wrapper {
+  position: relative;
   width: 100%;
-  text-align: center;
+  height: 100%;
+  @include flex-center;
 }
 
+// Combined Data Section
+.combined-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin: 10px 0;
+  height: 140px;
+  padding: 3vw;
+  min-height: 30vh;
+  @include flex-center;
+}
+
+// Temperature and Humidity Sections
+.temperature-section,
+.humidity-section {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 3vw;
+  min-height: 30vh;
+  @include flex-center;
+}
+
+// Section Labels
+.section-label {
+  font-size: 1.3em;
+  color: $secondary-text;
+  margin-bottom: 0.5rem;
+}
+
+// Values
 .temperature-value {
-  font-size: 4.5rem;
-  color: #1a1a1a;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  @include flex-center;
+  font-size: 2em;
 }
 
 .humidity-value {
-  font-size: 4rem;
-  color: #1a1a1a;
+  font-size: 1.6em;
+  font-weight: bold;
 }
 
-// Forecast section
+// Forecast Section
+.forecast {
+  padding: 3vw;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3vh;
+  padding-top: 6vh;
+}
+
 .forecast-section {
   grid-column: 1 / -1;
   background: linear-gradient(145deg, #ffffff, #f8f9fa);
@@ -125,52 +160,46 @@ h1 {
   justify-content: center;
   height: 120px;
   transition: all 0.3s ease;
-  border: 1px solid rgba(0, 184, 148, 0.2);
-  box-shadow: 0 4px 12px rgba(0, 184, 148, 0.05);
+  border: 1px solid $border-color;
+  box-shadow: 0 4px 12px $shadow-color;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 184, 148, 0.1);
-  }
+  @include card-hover;
 }
 
-.forecast-content {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-top: 0.5rem;
-  height: 100%;
+.forecast-title {
+  font-size: 1.2em;
+  color: $secondary-text;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.forecast-description {
+  font-size: 1.1em;
+  color: $text-color;
+  text-align: center;
 }
 
 .forecast-icon {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  margin: 0.5rem auto;
 }
 
-.forecast-content span {
-  font-size: 1.6rem;
-  color: #1a1a1a;
-  text-transform: capitalize;
-  transition: font-size 0.3s ease;
-  font-weight: 500;
-}
-
-// Loading state
+// Loading State
 .loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 450px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  @include flex-center;
 }
 
 .spinner {
-  width: 60px;
-  height: 60px;
-  border: 6px solid rgba(0, 184, 148, 0.1);
-  border-top: 6px solid #00b894;
+  width: 35px;
+  height: 35px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid $primary-color;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -181,14 +210,12 @@ h1 {
 }
 
 // Footer
-footer {
-  margin-top: 1.5rem;
+.footer {
+  margin-top: auto;
+  padding: 1rem;
   text-align: center;
-  color: #666;
-  font-size: 1rem;
-  padding: 0.75rem;
-  border-top: 1px solid rgba(0, 184, 148, 0.1);
-  width: 100%;
+  color: $secondary-text;
+  font-size: 0.9em;
 }
 
 // Responsive adjustments
@@ -265,15 +292,4 @@ footer {
   .section-label {
     font-size: 1.2rem;
   }
-}
-
-.forecast {
-  padding: 3vw;
-  min-height: 30vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3vh;
-  padding-top: 6vh;
 } 
