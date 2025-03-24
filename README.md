@@ -12,6 +12,7 @@ A modern Angular application that displays weather information with a focus on t
 - Loading state indicators
 - Stable layout with smooth transitions
 - Forecast data integration
+- Robust error handling and data loading states
 
 ## Prerequisites
 
@@ -56,6 +57,10 @@ ng serve
 - Implements caching using RxJS BehaviorSubject
 - Handles temperature unit conversion
 - Integrates forecast data with current weather
+- Optimized data loading with shareReplay for efficient caching
+- Comprehensive error handling with detailed logging
+- Automatic data refresh on unit changes
+- Graceful handling of missing or invalid data
 
 ### Temperature Pipe
 - Custom pipe for formatting temperature values
@@ -75,6 +80,7 @@ ng serve
 - Responsive grid layout with fixed dimensions
 - Stable layout preventing shifts during data updates
 - Optimized for various screen sizes
+- Improved loading states and error handling
 
 ### Styling Features
 - Modern SCSS-based styling architecture
