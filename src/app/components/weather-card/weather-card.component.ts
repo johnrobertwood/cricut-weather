@@ -28,12 +28,13 @@ import { CommonModule } from '@angular/common';
         min-height: 300px;
         display: flex;
         flex-direction: column;
+        font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
       }
       .card-header {
         font-size: 1.4em;
-        font-weight: bold;
+        font-weight: 600;
         margin-bottom: 15px;
-        color: #333;
+        color: #00b894;
       }
       .card-content {
         flex: 1;
