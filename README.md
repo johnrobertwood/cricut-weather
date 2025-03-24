@@ -2,6 +2,8 @@
 
 A modern Angular application that displays weather information with a focus on temperature data. The application demonstrates various Angular features including two-way binding, content projection, custom pipes, and RxJS data stream management.
 
+🌐 **Live Demo**: [View the application](https://johnrobertwood.github.io/cricut-weather/)
+
 ## Features
 
 - Real-time weather data display
