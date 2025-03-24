@@ -4,7 +4,7 @@
   <div class="unit-selector">
     <label>
       Temperature Unit:
-      <select [(ngModel)]="selectedUnit" (ngModelChange)="onUnitChange($event)">
+      <select [(ngModel)]="selectedUnit">
         <option value="F">Fahrenheit</option>
         <option value="C">Celsius</option>
       </select>
@@ -14,39 +14,49 @@
   <div class="cards-container">
     <app-weather-card>
       <div header>South Jordan, Utah</div>
-      <div class="combined-data">
-        <div class="temperature-section">
-          <div class="section-label">Temperature:</div>
-          <div class="content-wrapper">
-            <div *ngIf="isLoading" class="loading-container">
-              <div class="spinner"></div>
-            </div>
-            <div *ngIf="!isLoading" class="temperature-value">
-              {{ weatherData?.temperature | temperature }}
+      <ng-container *ngIf="weatherData$ | async as weatherData; else loading">
+        <div class="combined-data">
+          <div class="temperature-section">
+            <div class="section-label">Temperature:</div>
+            <div class="temperature-value">
+              {{ weatherData?.temperature || null | temperature }}
             </div>
           </div>
-        </div>
-        <div class="humidity-section">
-          <div class="section-label">Humidity:</div>
-          <div class="humidity-value">
-            {{ weatherData ? (weatherData.humidity | number:'1.0-1') : '--' }}%
+          <div class="humidity-section">
+            <div class="section-label">Humidity:</div>
+            <div class="humidity-value">
+              {{ weatherData?.humidity ?? '--' | number:'1.0-1' }}%
+            </div>
           </div>
+          <ng-container *ngIf="getForecastData(weatherData) as forecast">
+            <div class="forecast-section">
+              <div class="section-label">Tomorrow's Weather:</div>
+              <div class="forecast-content">
+                <img 
+                  [src]="forecast.icon" 
+                  [alt]="forecast.description" 
+                  class="forecast-icon"
+                >
+                <span>{{ forecast.description }}</span>
+              </div>
+            </div>
+          </ng-container>
         </div>
-        <div class="forecast-section" *ngIf="weatherData?.forecast">
-          <div class="section-label">Tomorrow's Weather:</div>
-          <div class="forecast-content">
-            <img 
-              [src]="weatherData?.forecast?.icon || ''" 
-              [alt]="weatherData?.forecast?.description || 'Weather icon'" 
-              class="forecast-icon"
-            >
-            <span>{{ weatherData?.forecast?.description || 'No forecast available' }}</span>
-          </div>
+        <div footer>
+          Last updated: {{ weatherData?.timestamp ? (weatherData.timestamp | date:'medium') : 'Never' }}
         </div>
-      </div>
-      <div footer>
-        Last updated: {{ (weatherData && weatherData.timestamp) ? (weatherData.timestamp | date:'medium') : 'Loading...' }}
-      </div>
+      </ng-container>
     </app-weather-card>
   </div>
-</div> 
+</div>
+
+<ng-template #loading>
+  <div class="combined-data">
+    <div class="loading-container">
+      <div class="spinner"></div>
+    </div>
+  </div>
+  <div footer>
+    Loading...
+  </div>
+</ng-template> 

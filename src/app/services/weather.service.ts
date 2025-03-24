@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, combineLatest, throwError } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError, tap, shareReplay } from 'rxjs/operators';
 
 export interface Temperature {
   value: number;
@@ -28,13 +28,13 @@ interface WeatherResponse {
 }
 
 interface OverviewResponse {
-  list: Array<{
+  list: {
     dt: number;
-    weather: Array<{
+    weather: {
       description: string;
       icon: string;
-    }>;
-  }>;
+    }[];
+  }[];
 }
 
 @Injectable({
@@ -46,8 +46,18 @@ export class WeatherService {
   private readonly DEFAULT_LAT = 40.5593081; // South Jordan, Utah
   private readonly DEFAULT_LON = -111.938668;
   private weatherDataSubject = new BehaviorSubject<WeatherData | null>(null);
+  private weatherData$: Observable<WeatherData>;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Initialize the weather data stream
+    this.weatherData$ = this.getWeatherData().pipe(
+      shareReplay(1),
+      catchError((error) => {
+        console.error('Error in weather data stream:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 
   private validateCoordinates(lat: number, lon: number): boolean {
     return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
@@ -131,9 +141,11 @@ export class WeatherService {
   }
 
   getCombinedWeather(unit: 'C' | 'F' = 'F'): Observable<WeatherData | null> {
-    return this.weatherDataSubject.pipe(
+    return this.weatherData$.pipe(
       map((data) => {
-        if (!data) return null;
+        if (!data) {
+          return null;
+        }
         return {
           ...data,
           temperature: {
@@ -144,6 +156,10 @@ export class WeatherService {
             unit,
           },
         };
+      }),
+      catchError((error) => {
+        console.error('Error in getCombinedWeather:', error);
+        return throwError(() => error);
       })
     );
   }
