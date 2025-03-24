@@ -119,6 +119,7 @@ h1 {
   background: linear-gradient(145deg, #ffffff, #f8f9fa);
   border-radius: 12px;
   padding: 1.25rem;
+  padding-top: 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -264,4 +265,15 @@ footer {
   .section-label {
     font-size: 1.2rem;
   }
+}
+
+.forecast {
+  padding: 3vw;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3vh;
+  padding-top: 6vh;
 } 
